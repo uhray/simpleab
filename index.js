@@ -1,9 +1,5 @@
 (function (f) {
-  if (
-    (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) ===
-      'object' &&
-    typeof module !== 'undefined'
-  ) {
+  if (typeof exports === 'undefined' && typeof module !== 'undefined') {
     module.exports = f();
   } else if (typeof define === 'function' && define.amd) {
     define([], f);
