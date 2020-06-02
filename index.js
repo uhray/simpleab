@@ -1,6 +1,7 @@
 (function (f) {
-  if (typeof exports === 'undefined' && typeof module !== 'undefined') {
-    module.exports = f();
+  if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
+    console.log('here', f());
+    module.exports = exports = f();
   } else if (typeof define === 'function' && define.amd) {
     define([], f);
   } else {
