@@ -1,0 +1,71 @@
+(function (f) {
+  if (
+    (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) ===
+      'object' &&
+    typeof module !== 'undefined'
+  ) {
+    module.exports = f();
+  } else if (typeof define === 'function' && define.amd) {
+    define([], f);
+  } else {
+    var g;
+
+    if (typeof window !== 'undefined') {
+      g = window;
+    } else if (typeof global !== 'undefined') {
+      g = global;
+    } else if (typeof self !== 'undefined') {
+      g = self;
+    } else {
+      g = this;
+    }
+
+    g.SimpleAB = f();
+  }
+})(function () {
+  function SimpleAB(title) {
+    this.variants = [];
+    this.totalWeight = 0;
+    this.title = title;
+    this.variantLookup = {};
+  }
+
+  SimpleAB.track = function (title, decision) {
+    // stubbed track
+  };
+
+  SimpleAB.prototype.variant = function (name, weight) {
+    weight = weight || 1;
+    this.variants.push({ name: name, weight: weight });
+    this.totalWeight += weight;
+    this.variantLookup[name] = 1;
+    return this;
+  };
+
+  SimpleAB.prototype.choose = function () {
+    var sum = 0,
+      random = Math.random(),
+      totalWeight = this.totalWeight,
+      title = this.title,
+      existing = localStorage.getItem('SIMPLEAB_' + title);
+
+    if (existing && this.variantLookup[existing]) {
+      SimpleAB.track(title, existing);
+      return existing;
+    }
+
+    for (var i = 0; i < this.variants.length; i++) {
+      sum += this.variants[i].weight;
+      if (sum / totalWeight >= random) {
+        var d = this.variants[i].name;
+        SimpleAB.track(title, d);
+        localStorage.setItem('SIMPLEAB_' + title, d);
+        return d;
+      }
+    }
+
+    return 'none';
+  };
+
+  return SimpleAB;
+});

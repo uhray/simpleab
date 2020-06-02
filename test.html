@@ -1,0 +1,17 @@
+<html>
+  <script src="index.js"></script>
+
+  <script>
+    // set up tracking
+    SimpleAB.track = (trial, variant) => {
+      console.log('decided %s for %s', variant, trial);
+    };
+
+    // Using
+    const decision = new SimpleAB('my-trial')
+      .variant('variantA', 1) // weight of 1
+      .variant('variantB', 2) // weight of 2
+      .choose();
+  </script>
+  <body></body>
+</html>
