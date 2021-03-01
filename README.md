@@ -10,6 +10,15 @@ SimbleAB.track = (trial, variant) => {
   console.log('decided %s for %s', variant, trial);
 }
 
+// set up storage (defaults below, only override if needed)
+SimpleAB.saveSetting = function (key, value) {
+  return localStorage.setItem('SIMPLEAB_' + key, value);
+};
+
+SimpleAB.retrieveSetting = function (key) {
+  return localStorage.getItem('SIMPLEAB_' + key);
+};
+
 // Using
 const decision = new SimpleAB('my-trial')
                    .variant('variantA', 1)  // weight of 1

@@ -30,6 +30,14 @@
     // stubbed track
   };
 
+  SimpleAB.saveSetting = function (key, value) {
+    return localStorage.setItem('SIMPLEAB_' + key, value);
+  };
+
+  SimpleAB.retrieveSetting = function (key) {
+    return localStorage.getItem('SIMPLEAB_' + key);
+  };
+
   SimpleAB.prototype.variant = function (name, weight) {
     weight = weight || 1;
     this.variants.push({ name: name, weight: weight });
@@ -43,7 +51,7 @@
       random = Math.random(),
       totalWeight = this.totalWeight,
       title = this.title,
-      existing = localStorage.getItem('SIMPLEAB_' + title);
+      existing = SimpleAB.retrieveSetting(title);
 
     if (existing && this.variantLookup[existing]) {
       SimpleAB.track(title, existing);
@@ -55,7 +63,7 @@
       if (sum / totalWeight >= random) {
         var d = this.variants[i].name;
         SimpleAB.track(title, d);
-        localStorage.setItem('SIMPLEAB_' + title, d);
+        SimpleAB.saveSetting(title, d);
         return d;
       }
     }
